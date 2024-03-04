@@ -11,6 +11,36 @@ function ocultarCargando() {
   spinner.classList.remove("loading");
 }
 
+function manos(){
+  let mano_izq = document.getElementById("mano_izq")
+  let mano_der = document.getElementById("mano_der")
+  mano_der.style.display = "block";
+  mano_izq.style.display = "block"
+  mano_der.animate(
+    [
+      { right: '0' }, // Posición inicial: extremo derecho
+      { right: '25%' } // Posición final: centro de la pantalla
+    ],
+    {
+      duration: 3000, // Duración de la animación en milisegundos
+      easing: 'ease', // Función de temporización
+      fill: 'forwards' // Mantener la posición final después de la animación
+    }
+  );
+
+  mano_izq.animate(
+    [
+      { left: '0' }, // Posición inicial: extremo derecho
+      { left: '25%' } // Posición final: centro de la pantalla
+    ],
+    {
+      duration:4000, // Duración de la animación en milisegundos
+      easing: 'ease', // Función de temporización
+      fill: 'forwards' // Mantener la posición final después de la animación
+    }
+  );
+}
+
 let boton = document.getElementById("boton");
 if (!boton) {
   boton = document.createElement("button");
@@ -29,12 +59,14 @@ document.getElementById("rango").addEventListener("input", (event) => {
     document.getElementById("publicar").style.display = "block";
     let inputsActuales = document.querySelectorAll('input[id^="input"]');
     let diferencia = valor - inputsActuales.length;
-    if (diferencia > 0) {
+    if ((diferencia > 0) && (!document.getElementById("oraculo"))) {
       for (let i = 0; i < diferencia; i++) {
         let input = document.createElement("input");
         input.type = "text";
         input.id = `input${inputsActuales.length + i}`;
         input.classList.add("styled-input");
+        input.required = true;
+        console.log(input.required)
         const estadoLocalStorage = localStorage.getItem("coquete");
         if (estadoLocalStorage === "true") {
           input.classList.add("rosa");
@@ -88,33 +120,13 @@ document.getElementById("publicar").addEventListener("click", () => {
     oraculo.className = "oraculo";
     oraculo.style.zIndex = "0"
     oraculo.innerText = resultado_final;
-    let mano_izq = document.getElementById("mano_izq")
-    let mano_der = document.getElementById("mano_der")
-    mano_der.style.display = "block";
-    mano_izq.style.display = "block"
-    mano_der.animate(
-      [
-        { right: '0' }, // Posición inicial: extremo derecho
-        { right: '25%' } // Posición final: centro de la pantalla
-      ],
-      {
-        duration: 3000, // Duración de la animación en milisegundos
-        easing: 'ease', // Función de temporización
-        fill: 'forwards' // Mantener la posición final después de la animación
+      const anchoPantalla = window.innerWidth
+      if(anchoPantalla > 750){
+        manos()
+      }else if(anchoPantalla <=750){
+        mostrarCargando()
       }
-    );
-
-    mano_izq.animate(
-      [
-        { left: '0' }, // Posición inicial: extremo derecho
-        { left: '25%' } // Posición final: centro de la pantalla
-      ],
-      {
-        duration:4000, // Duración de la animación en milisegundos
-        easing: 'ease', // Función de temporización
-        fill: 'forwards' // Mantener la posición final después de la animación
-      }
-    );
+   
 
     setTimeout(() => {
       oraculo.style.display = "block";
