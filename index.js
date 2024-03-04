@@ -38,7 +38,7 @@ document.getElementById("rango").addEventListener("input", (event) => {
         const estadoLocalStorage = localStorage.getItem("coquete");
         if (estadoLocalStorage === "true") {
           input.classList.add("rosa");
-        } else {
+        } else if(estadoLocalStorage === "false"){
           input.classList.remove("rosa");
         }
         input.placeholder = `Ingrese la decisión número: ${
@@ -58,14 +58,23 @@ document.getElementById("rango").addEventListener("input", (event) => {
 
 document.getElementById("publicar").addEventListener("click", () => {
   let inputs = document.querySelectorAll('input[id^="input"]');
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
   let decisiones = [];
   inputs.forEach((input) => {
     decisiones.push(input.value);
     input.value = "";
   });
-  let resultado;
-  resultado = Math.floor(Math.random() * inputs.length);
-  let resultado_final = decisiones[resultado];
+  
+  decisiones = shuffleArray(decisiones);
+  let resultado = Math.floor(Math.random() * decisiones.length);
+  let resultado_final = decisiones[resultado];  
   let respuesta = document.getElementById("respuesta");
   if (!respuesta) {
     let respuesta = document.body.appendChild(document.createElement("div"));
@@ -77,8 +86,36 @@ document.getElementById("publicar").addEventListener("click", () => {
     let oraculo = respuesta.appendChild(document.createElement("p"));
     oraculo.id = "oraculo";
     oraculo.className = "oraculo";
+    oraculo.style.zIndex = "0"
     oraculo.innerText = resultado_final;
-    mostrarCargando();
+    let mano_izq = document.getElementById("mano_izq")
+    let mano_der = document.getElementById("mano_der")
+    mano_der.style.display = "block";
+    mano_izq.style.display = "block"
+    mano_der.animate(
+      [
+        { right: '0' }, // Posición inicial: extremo derecho
+        { right: '25%' } // Posición final: centro de la pantalla
+      ],
+      {
+        duration: 3000, // Duración de la animación en milisegundos
+        easing: 'ease', // Función de temporización
+        fill: 'forwards' // Mantener la posición final después de la animación
+      }
+    );
+
+    mano_izq.animate(
+      [
+        { left: '0' }, // Posición inicial: extremo derecho
+        { left: '25%' } // Posición final: centro de la pantalla
+      ],
+      {
+        duration:4000, // Duración de la animación en milisegundos
+        easing: 'ease', // Función de temporización
+        fill: 'forwards' // Mantener la posición final después de la animación
+      }
+    );
+
     setTimeout(() => {
       oraculo.style.display = "block";
       let reinicio = document.body.appendChild(
@@ -87,13 +124,39 @@ document.getElementById("publicar").addEventListener("click", () => {
       reinicio.id = "reiniciar";
       reinicio.className = "reiniciar";
       reinicio.innerHTML = "Reiniciar";
-
+      reinicio.addEventListener("click", () =>{
+        location.reload()
+      })
       ocultarCargando();
-    }, 3000);
-  } else {
-    respuesta.parentNode.removeChild(respuesta);
+      mano_der.animate(
+        [
+          {right: '25'},
+          {right: '0%'}
+        ],{
+          duration:3000,
+          easing: 'ease',
+          fill: 'forwards'
+        }
+      )
+      mano_izq.animate(
+        [
+          {left: '25'},
+          {left: '0%'}
+        ],{
+          duration:3000,
+          easing: 'ease',
+          fill: 'forwards'
+        }
+      )
+    }, 4000);
+    setTimeout(() => {
+      document.body.removeChild(mano_der)
+      document.body.removeChild(mano_izq)
+    }, 8000);
   }
 });
+
+
 
 let firstClick = true;
 document.getElementById("coquete").addEventListener("click", () => {
@@ -109,10 +172,9 @@ document.getElementById("coquete").addEventListener("click", () => {
     document.getElementById("rango").classList.add("rosa");
     document.getElementById("boton").classList.add("rosa");
     let publicar = document.getElementById("publicar");
-    if (boton.classList.value === "rosa") {
+    const estadoLocalStorage = localStorage.getItem("coquete");
+    if (estadoLocalStorage === "true") {
       publicar.classList.add("rosa");
-    } else {
-      publicar.classList.remove("rosa");
     }
     firstClick = false;
   } else if (!firstClick) {
@@ -127,6 +189,8 @@ document.getElementById("coquete").addEventListener("click", () => {
     if (document.getElementById("titulo")) {
       document.getElementById("titulo").classList.remove("rosa");
     }
+    let publicar = document.getElementById("publicar");
+    publicar.classList.remove("rosa");
     firstClick = true;
   }
 });
