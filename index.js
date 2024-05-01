@@ -78,6 +78,7 @@ document.getElementById("rango").addEventListener("input", (event) => {
         }`;
         document.body.appendChild(input);
       }
+      if(!document.getElementById("oraculo")){
     } else if (diferencia < 0) {
       for (let i = 0; i < Math.abs(diferencia); i++) {
         document.body.removeChild(
@@ -85,6 +86,7 @@ document.getElementById("rango").addEventListener("input", (event) => {
         );
       }
     }
+  }
   });
 });
 
@@ -175,11 +177,16 @@ document.getElementById("coquete").addEventListener("click", () => {
   if (firstClick) {
     if (document.getElementById("titulo")) {
       document.getElementById("titulo").classList.add("rosa");
+    }else if(document.getElementById("nuevo_titulo")){
+      document.getElementById("nuevo_titulo").classList.add("rosa");
     }
     let coquete = document.getElementById("coquete");
     coquete.style.backgroundColor = "#e17c99";
     localStorage.setItem("coquete", true);
     document.body.classList.add("rosa");
+    if(document.getElementById("enviar_pregunta")){
+      document.getElementById("enviar_pregunta").classList.add("rosa")
+    }
     document.getElementById("Contenedor").classList.add("rosa");
     document.getElementById("rango").classList.add("rosa");
     document.getElementById("boton").classList.add("rosa");
@@ -192,6 +199,11 @@ document.getElementById("coquete").addEventListener("click", () => {
   } else if (!firstClick) {
     localStorage.setItem("coquete", false);
     document.body.classList.remove("rosa");
+    if(document.getElementById("enviar_pregunta")){
+      document.getElementById("enviar_pregunta").classList.remove("rosa")
+    }else if(document.getElementById("nuevo_titulo")){
+      document.getElementById("nuevo_titulo").classList.remove("rosa")   
+     }
     document.getElementById("Contenedor").classList.remove("rosa");
     document.getElementById("rango").classList.remove("rosa");
     document.getElementById("boton").classList.remove("rosa");
@@ -207,14 +219,36 @@ document.getElementById("coquete").addEventListener("click", () => {
   }
 });
 
+document.getElementById("enviar_pregunta").addEventListener("click", () =>{
+  var nuevoTitulo = document.getElementById("titulo").value;
+  var cont = document.getElementById("cont");
+  var titulo = document.getElementById("titulo");
+  if(titulo.value != ""){
+  var label = document.getElementById("label");
+  cont.removeChild(titulo);
+  cont.removeChild(label);
+  const Titulin = cont.appendChild(document.createElement("h2")); 
+  Titulin.innerHTML = nuevoTitulo
+  Titulin.className = "nuevo_titulo"
+  Titulin.id = "nuevo_titulo"
+  document.getElementById("cont").removeChild(document.getElementById("enviar_pregunta"))
+  }
+})
+
 document.getElementById("titulo").addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
+    var titulo = document.getElementById("titulo");
+    if(titulo.value != ""){
     var nuevoTitulo = document.getElementById("titulo").value;
     var cont = document.getElementById("cont");
-    var titulo = document.getElementById("titulo");
     var label = document.getElementById("label");
     cont.removeChild(titulo);
     cont.removeChild(label);
-    cont.appendChild(document.createElement("h2")).innerHTML = nuevoTitulo;
+    const Titulin = cont.appendChild(document.createElement("h2")); 
+    Titulin.innerHTML = nuevoTitulo
+    Titulin.className = "nuevo_titulo"
+    Titulin.id = "nuevo_titulo"
+    document.getElementById("cont").removeChild(document.getElementById("enviar_pregunta"))
   }
+}
 });
