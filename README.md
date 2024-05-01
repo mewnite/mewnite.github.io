@@ -5,7 +5,8 @@
 - [El Decisiometro](#el-decisiometro)
   - [Tabla de contenidos](#tabla-de-contenidos)
   - [Descripcion](#descripcion)
-  - [Uso](#uso)
+  - [Mas información](#Más-información)
+  - [Modo de uso](#Modo-de-uso)
 
 
 ## Descripcion 
