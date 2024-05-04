@@ -180,8 +180,6 @@ document.getElementById("coquete").addEventListener("click", () => {
     }else if(document.getElementById("nuevo_titulo")){
       document.getElementById("nuevo_titulo").classList.add("rosa");
     }
-    let coquete = document.getElementById("coquete");
-    coquete.style.backgroundColor = "#e17c99";
     localStorage.setItem("coquete", true);
     document.body.classList.add("rosa");
     if(document.getElementById("enviar_pregunta")){
@@ -208,8 +206,6 @@ document.getElementById("coquete").addEventListener("click", () => {
     document.getElementById("rango").classList.remove("rosa");
     document.getElementById("boton").classList.remove("rosa");
     boton.classList.remove("rosa");
-    let coquete = document.getElementById("coquete");
-    coquete.style.backgroundColor = "#e099ad";
     if (document.getElementById("titulo")) {
       document.getElementById("titulo").classList.remove("rosa");
     }
