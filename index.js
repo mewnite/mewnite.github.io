@@ -188,6 +188,7 @@ document.getElementById("coquete").addEventListener("click", () => {
     document.getElementById("Contenedor").classList.add("rosa");
     document.getElementById("rango").classList.add("rosa");
     document.getElementById("boton").classList.add("rosa");
+    document.getElementById("normal").classList.add("rosa")
     let publicar = document.getElementById("publicar");
     const estadoLocalStorage = localStorage.getItem("coquete");
     if (estadoLocalStorage === "true") {
