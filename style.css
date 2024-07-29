@@ -230,6 +230,10 @@ input[type=text] {
 	color: #00001E;
 }
 
+#titulo{
+	border-radius: 20px; 
+}
+
 .moño{
 	width: 80%;
 	height: 70%;
