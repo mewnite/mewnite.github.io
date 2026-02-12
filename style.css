@@ -1,240 +1,269 @@
 * {
-	margin: auto;
+	box-sizing: border-box;
+	margin: 0;
 	padding: 0;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;800&family=Roboto:wght@400;700&display=swap');
+
+body,
 .normal {
-	background-color: rgb(206, 248, 248);
-	background-color: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+	min-height: 100vh;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	height: 100vh;
-	margin: 0;
+	justify-content: center;
+	background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+	font-family: 'Nunito', 'Roboto', sans-serif;
+	padding: 24px;
 }
 
 .Contenedor {
-	margin: 5px;
-	background-color: black;
-	border-radius: 18%;
-	height: 100px;
-	width: 200px;
+	background: rgba(0, 0, 0, 0.8);
+	color: #ffffff;
+	border-radius: 14px;
+	padding: 28px;
+	width: min(760px, 96%);
+	min-height: 360px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
+	gap: 16px;
+	align-items: stretch;
+	justify-content: center;
 	position: relative;
+	box-shadow: 0 18px 50px rgba(2, 6, 23, 0.45);
+	border: 1px solid rgba(255,255,255,0.04);
 }
 
-.coquete {
-	position: absolute;
+.cont {
+	position: static;
 	display: flex;
-	top: 0;
-	left: 0;
-	width: 50px;
-	height: 50px;
-	border-radius: 200%;
-	border-style: double;
-	background-color: rgb(240, 240, 240);
-	border-color: #00001E;
+	gap: 10px;
+	align-items: center;
+	width: 100%;
 }
 
-.coquete:hover {
-	background-color: #e17c99;
+#label {
+	color: #ffffff;
+	font-size: 14px;
+	margin-right: 6px;
 }
 
+#titulo,
+.styled-input,
+input[type="text"] {
+	width: 100%;
+	padding: 10px 12px;
+	border-radius: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background-color: #ffffff;
+	color: #00001E;
+	font-size: 16px;
+	outline: none;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
 
+input[type="text"]::placeholder,
+#titulo::placeholder {
+	color: #6b6b6b;
+}
 
-#valor {
-	color: white;
-	position: absolute;
-	top: -20px;
-	left: 50%;
-	transform: translatex(-50%);
-	z-index: 1;
+.enviar_pregunta {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: none;
+	background-color: rgb(138, 248, 248);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	flex: 0 0 40px;
+}
+
+.enviar_pregunta:hover {
+	background-color: rgb(83, 160, 160);
 }
 
 #rango {
 	-webkit-appearance: none;
-	margin: 10px 0;
 	width: 100%;
+	margin: 6px 0 0 0;
+}
+
+#valor {
+	position: absolute;
+	top: 12px;
+	right: 16px;
+	color: #ffffff;
+	font-weight: 700;
 }
 
 .respuesta {
-	width: 200px;
-	height: 200px;
+	width: 100%;
+	min-height: 80px;
+	padding: 12px 14px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	text-align: center;
 	margin: 0;
-}
-
-input[type="text"] {
-	width: calc(50% - 5px);
-	margin: 5px;
-	display: inline-block;
+	background: rgba(255, 255, 255, 0.06);
+	border-radius: 10px;
+	color: #ffffff;
+	font-size: 18px;
 }
 
 .oraculo {
-	position: absolute;
-	display: none;
-	text-align: center;
-	left: 0;
-	right: 0;
+	display: block;
+	width: 100%;
+	font-weight: 700;
 }
 
 .spinner {
-	border: 4px solid rgba(0, 0, 0, 0.1);
-	border-left-color: #333;
+	border: 4px solid rgba(255, 255, 255, 0.15);
+	border-left-color: #ffffff;
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;
-	position: absolute;
-	left: 0;
-	right: 0;
 	box-sizing: border-box;
 	display: none;
 	animation: spin infinite 1s linear;
+	margin-right: 12px;
 }
 
 .loading {
-	display: block;
+	display: inline-block;
 }
 
 @keyframes spin {
-	0% {
+	from {
 		transform: rotate(0deg);
 	}
-
-	100% {
+	to {
 		transform: rotate(360deg);
 	}
 }
 
-input[type=text] {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	border-width: 2px;
-	border-color: #0c237e;
-	background-color: #FFFFFF;
-	color: #00001E;
-	border-style: double;
-	border-radius: 3px;
-	box-shadow: 0px 0px 5px rgba(66, 66, 66, .75);
-	text-shadow: 0px 0px 5px rgba(66, 66, 66, .75);
-}
-
-@import url('https: //fonts.googleapis.com/css2?family=Bebas+Neue&family=Koulen&family=Lato&family=Nunito&family=Playfair+Display: ital@1&family=Prata&family=Raleway: ital, wght@1, 100&family=Roboto&family=Roboto+Condensed&family=Teko&display=swap');
-
-#boton {
-	font-family: Roboto, sans-serif;
-	font-weight: 0;
-	font-size: 12px;
-	color: #fff;
-	background-color: #0066cc;
-	padding: 8px 26px;
-	border: solid #0066cc 0px;
-	box-shadow: rgb(0, 0, 0) -1px 3px 7px -1px;
-	border-radius: 14px;
-	transition: 1454ms;
-	transform: translatey(0);
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	cursor: pointer;
-}
-
+#boton,
 #publicar {
 	font-family: Roboto, sans-serif;
-	font-weight: 0;
 	font-size: 13px;
 	color: #fff;
 	background-color: #0066cc;
-	padding: 8px 27px;
-	border: solid #0066cc 0px;
-	box-shadow: rgb(0, 0, 0) -1px 3px 7px -1px;
-	border-radius: 14px;
-	transition: 1454ms;
-	transform: translatey(0);
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+	padding: 8px 18px;
+	border: none;
+	box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+	border-radius: 12px;
+	transition: transform 160ms ease, box-shadow 160ms ease;
 	cursor: pointer;
+}
+
+#boton:hover,
+#publicar:hover {
+	transform: translateY(-2px);
 }
 
 .reiniciar {
 	background: #FF4742;
-	border: 1px solid #FF4742;
-	border-radius: 6px;
-	box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
-	box-sizing: border-box;
+	border: none;
+	border-radius: 8px;
 	color: #FFFFFF;
+	padding: 8px 12px;
 	cursor: pointer;
-	display: inline-block;
-	font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
-	font-size: 16px;
-	font-weight: 800;
-	line-height: 16px;
-	min-height: 40px;
-	outline: 0;
-	padding: 12px 14px;
-	text-align: center;
-	text-rendering: geometricprecision;
-	text-transform: none;
-	user-select: none;
-	-webkit-user-select: none;
-	touch-action: manipulation;
-	vertical-align: middle;
-	margin: 0;
+	margin-top: 10px;
 }
 
-.reiniciar:hover,
-.reiniciar:active {
-	background-color: initial;
-	background-position: 0 0;
-	color: #FF4742;
-}
-
-.reiniciar:active {
-	opacity: .5;
-}
-
-.cont {
-	position: absolute;
-	top: -70px;
-	width: 30vh;
-}
-
-
-.enviar_pregunta{
-	border-radius: 100%;
-	width: 30px;
-	height: 30px;
-	position: absolute;
-	bottom: 0;
-	right: -8vh;
-	border-style: none;
-	background-color: rgb(138, 248, 248);
-	cursor: pointer;
-}
-
-.enviar_pregunta:hover{
-	background-color: rgb(83, 160, 160);
-}
-
-.nuevo_titulo{
-	text-align: center;
-	user-select: none;
-	color: #00001E;
-}
-
-#titulo{
-	border-radius: 20px; 
-}
-
-.moño{
+.moño {
 	width: 80%;
 	height: 70%;
+}
+
+.rosa {
+	/* small accent color toggle used by JS */
+	--accent: #e17c99;
+}
+
+/* Contador dentro del contenedor (ej: 2 / 5) */
+.contador {
+	position: absolute;
+	top: -18px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: #ffffff;
+	color: #0b0b2a;
+	padding: 8px 14px;
+	border-radius: 999px;
+	font-weight: 800;
+	font-size: 15px;
+	z-index: 60;
+	box-shadow: 0 8px 24px rgba(2,6,23,0.25);
+}
+
+/* Botón flotante pequeño y circular */
+#coquete,
+.coquete {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #ffffff;
+	box-shadow: 0 8px 20px rgba(2, 6, 23, 0.35);
+	border: none;
+	cursor: pointer;
+	z-index: 9999;
+	padding: 6px;
+}
+
+#coquete img,
+.coquete img,
+.moño {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 50%;
+}
+
+/* Output más limpio: spinner + texto al lado, tipografía y espaciamiento */
+.respuesta {
+	flex-direction: row;
+	gap: 12px;
+	align-items: center;
+	justify-content: flex-start;
+	min-height: 120px;
+	padding: 18px;
+	font-size: 20px;
+}
+
+.respuesta .oraculo,
+#oraculo {
+	font-size: 20px;
+	line-height: 1.25;
+	text-align: left;
+	color: #ffffff;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
+
+/* Mostrar spinner cuando tenga la clase loading */
+#loading-spinner.loading,
+.spinner.loading {
+	display: inline-block;
+}
+
+@media (max-width: 520px) {
+	#coquete,
+	.coquete {
+		width: 42px;
+		height: 42px;
+		bottom: 16px;
+		right: 16px;
+	}
+	.respuesta .oraculo {
+		font-size: 16px;
+	}
 }

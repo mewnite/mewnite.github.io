@@ -2,20 +2,22 @@ window.onload = function () {
   localStorage.setItem("coquete", false);
 };
 
+const mano_der = document.getElementById("mano_der");
+const mano_izq = document.getElementById("mano_izq");
+
 function mostrarCargando() {
   var spinner = document.getElementById("loading-spinner");
-  spinner.classList.add("loading");
+  if (spinner) spinner.classList.add("loading");
 }
 function ocultarCargando() {
   var spinner = document.getElementById("loading-spinner");
-  spinner.classList.remove("loading");
+  if (spinner) spinner.classList.remove("loading");
 }
 
 function manos(){
-  let mano_izq = document.getElementById("mano_izq")
-  let mano_der = document.getElementById("mano_der")
+  if (!mano_der || !mano_izq) return;
   mano_der.style.display = "block";
-  mano_izq.style.display = "block"
+  mano_izq.style.display = "block";
   mano_der.animate(
     [
       { right: '0' }, // Posición inicial: extremo derecho
@@ -49,14 +51,47 @@ if (!boton) {
   document.getElementById("Contenedor").appendChild(boton);
 }
 
+// Contador visual de decisiones (ej: 0 / 5)
+function ensureContador() {
+  const contenedorEl = document.getElementById("Contenedor");
+  if (!contenedorEl) return;
+  let contador = document.getElementById("contador");
+  if (!contador) {
+    contador = document.createElement("span");
+    contador.id = "contador";
+    contador.className = "contador";
+    contenedorEl.appendChild(contador);
+  }
+  updateContador();
+}
+
+function updateContador() {
+  const inputs = document.querySelectorAll('input[id^="input"]');
+  const rango = document.getElementById("rango");
+  const max = rango ? rango.value : 0;
+  const contador = document.getElementById("contador");
+  if (contador) contador.innerText = `${inputs.length} / ${max}`;
+}
+
+ensureContador();
+
 document.getElementById("rango").addEventListener("input", (event) => {
   let rango = document.getElementById("rango");
   let valor = (document.getElementById("valor").innerText = rango.value);
   if (document.getElementById("coquete")) {
-    document.body.removeChild(document.getElementById("coquete"));
+    const el = document.getElementById("coquete");
+    if (el && el.parentNode) el.parentNode.removeChild(el);
   }
+  updateContador();
+});
+
+// Add boton click listener once
+if (!boton._hasClickListener) {
   boton.addEventListener("click", () => {
-    document.getElementById("publicar").style.display = "block";
+    const rango = document.getElementById("rango");
+    const valor = parseInt(rango.value, 10) || 1;
+    const publicarEl = document.getElementById("publicar");
+    if (publicarEl) publicarEl.style.display = "block";
     let inputsActuales = document.querySelectorAll('input[id^="input"]');
     let diferencia = valor - inputsActuales.length;
     if ((diferencia > 0) && (!document.getElementById("oraculo"))) {
@@ -66,29 +101,30 @@ document.getElementById("rango").addEventListener("input", (event) => {
         input.id = `input${inputsActuales.length + i}`;
         input.classList.add("styled-input");
         input.required = true;
-        console.log(input.required)
         const estadoLocalStorage = localStorage.getItem("coquete");
         if (estadoLocalStorage === "true") {
           input.classList.add("rosa");
-        } else if(estadoLocalStorage === "false"){
+        } else if (estadoLocalStorage === "false") {
           input.classList.remove("rosa");
         }
         input.placeholder = `Ingrese la decisión número: ${
           inputsActuales.length + i + 1
         }`;
-        document.body.appendChild(input);
+        const contenedorEl = document.getElementById("Contenedor") || document.body;
+        contenedorEl.appendChild(input);
+        updateContador();
       }
-      if(!document.getElementById("oraculo")){
     } else if (diferencia < 0) {
       for (let i = 0; i < Math.abs(diferencia); i++) {
-        document.body.removeChild(
-          inputsActuales[inputsActuales.length - 1 - i]
-        );
+        const el = document.querySelectorAll('input[id^="input"]');
+        const toRemove = el[el.length - 1 - i];
+        if (toRemove && toRemove.parentNode) toRemove.parentNode.removeChild(toRemove);
+        updateContador();
       }
     }
-  }
   });
-});
+  boton._hasClickListener = true;
+}
 
 document.getElementById("publicar").addEventListener("click", () => {
   let inputs = document.querySelectorAll('input[id^="input"]');
@@ -111,7 +147,8 @@ document.getElementById("publicar").addEventListener("click", () => {
   let resultado_final = decisiones[resultado];  
   let respuesta = document.getElementById("respuesta");
   if (!respuesta) {
-    let respuesta = document.body.appendChild(document.createElement("div"));
+  const contenedorEl = document.getElementById("Contenedor") || document.body;
+  let respuesta = contenedorEl.appendChild(document.createElement("div"));
     respuesta.id = "respuesta";
     respuesta.className = "respuesta";
     let spinner = respuesta.appendChild(document.createElement("div"));
@@ -122,17 +159,17 @@ document.getElementById("publicar").addEventListener("click", () => {
     oraculo.className = "oraculo";
     oraculo.style.zIndex = "0"
     oraculo.innerText = resultado_final;
-      const anchoPantalla = window.innerWidth
-      if(anchoPantalla > 750){
-        manos()
-      }else if(anchoPantalla <=750){
-        mostrarCargando()
+      const anchoPantalla = window.innerWidth;
+      if (anchoPantalla > 750) {
+        manos();
+      } else if (anchoPantalla <= 750) {
+        mostrarCargando();
       }
    
 
     setTimeout(() => {
       oraculo.style.display = "block";
-      let reinicio = document.body.appendChild(
+      let reinicio = document.getElementById("Contenedor").appendChild(
         document.createElement("button")
       );
       reinicio.id = "reiniciar";
@@ -142,30 +179,32 @@ document.getElementById("publicar").addEventListener("click", () => {
         location.reload()
       })
       ocultarCargando();
-      mano_der.animate(
-        [
-          {right: '25'},
-          {right: '0%'}
-        ],{
-          duration:3000,
+      if (mano_der && typeof mano_der.animate === 'function') {
+        mano_der.animate([
+          { right: '25%' },
+          { right: '0%' }
+        ], {
+          duration: 3000,
           easing: 'ease',
           fill: 'forwards'
-        }
-      )
-      mano_izq.animate(
-        [
-          {left: '25'},
-          {left: '0%'}
-        ],{
-          duration:3000,
+        });
+      }
+      if (mano_izq && typeof mano_izq.animate === 'function') {
+        mano_izq.animate([
+          { left: '25%' },
+          { left: '0%' }
+        ], {
+          duration: 3000,
           easing: 'ease',
           fill: 'forwards'
-        }
-      )
+        });
+      }
     }, 4000);
+    // después de publicar, los inputs quedaron vacíos: reflejar en contador
+    updateContador();
     setTimeout(() => {
-      document.body.removeChild(mano_der)
-      document.body.removeChild(mano_izq)
+      if (mano_der && mano_der.parentNode) mano_der.parentNode.removeChild(mano_der);
+      if (mano_izq && mano_izq.parentNode) mano_izq.parentNode.removeChild(mano_izq);
     }, 8000);
   }
 });
